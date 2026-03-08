@@ -1,0 +1,31 @@
+name: Build IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build app
+        run: |
+          xcodebuild \
+          -project Protokolle.xcodeproj \
+          -scheme Protokolle \
+          -configuration Release \
+          -sdk iphoneos \
+          CODE_SIGNING_ALLOWED=NO
+
+      - name: Package IPA
+        run: |
+          mkdir Payload
+          cp -r build/Release-iphoneos/Protokolle.app Payload
+          zip -r Protokolle.ipa Payload
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Protokolle-IPA
+          path: Protokolle.ipa
