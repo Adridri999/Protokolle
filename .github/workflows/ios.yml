@@ -25,7 +25,7 @@ jobs:
           cp -r build/Release-iphoneos/Protokolle.app Payload
           zip -r Protokolle.ipa Payload
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Protokolle-IPA
           path: Protokolle.ipa
